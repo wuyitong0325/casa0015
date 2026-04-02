@@ -128,7 +128,10 @@ Each reading includes:
 * Enables history access without requiring active BLE connection
 * Provides a cloud-based record for analysis and evaluation
 
-📸 *(Insert screenshot: Firebase console data view here)*
+📸 
+<p align="center">
+  <img src="firebase_page.jng" width="300">
+</p>
 
 ---
 
