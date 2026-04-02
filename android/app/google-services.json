@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "672314956972",
+    "project_id": "mobile-app-casa0015",
+    "storage_bucket": "mobile-app-casa0015.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:672314956972:android:13db3971776a5db1b29309",
+        "android_client_info": {
+          "package_name": "com.example.mobile_app_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGDK6mKdVv6wkJNhT9eZk4dz6sikZxMhM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
