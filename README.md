@@ -82,7 +82,7 @@ Users can configure air quality thresholds:
 
 📸 
 <p align="center">
-  <img src="setting_page.jpg" width="300">
+  <img src="settings_page.jpg" width="300">
 </p>
 
 ---
