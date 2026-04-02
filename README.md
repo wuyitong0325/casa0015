@@ -25,7 +25,9 @@ The app scans for nearby BLE devices and allows users to connect to the IAQ sens
 * Supports reconnect and disconnect workflows
 * Ensures continuous data streaming once connected
 
-📸 *(Insert screenshot: BLE scanning & connection page here)*
+📸 
+![5bfcd5cb2cda95480f02fbc86ce8a9d8](https://github.com/user-attachments/assets/5ada14fa-f0d7-4b3c-acc8-dcd38677ff8c)
+
 
 ---
 
@@ -120,6 +122,10 @@ Each reading includes:
 ---
 
 ## 🧪 System Robustness & Hardware Independence
+<strong style="color:red;">
+This fallback mechanism is exposed in the interface as a testing/demo mode,  
+allowing users to explore the application without requiring a physical device.
+</strong>
 
 To ensure the application remains **fully testable in all environments**, the system supports an alternative data source when physical hardware is unavailable.
 
@@ -148,8 +154,8 @@ This design ensures:
 
 ## 📁 Project Structure
 
-### Arduino (Sensor Layer)
-
+### Arduino（mobile_app.ino)
+* sensor layer
 * Reads SGP30 sensor values
 * Sends data via BLE
 
