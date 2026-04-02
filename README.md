@@ -130,7 +130,7 @@ Each reading includes:
 
 📸 
 <p align="center">
-  <img src="firebase_page.png" width="600">
+  <img src="firebase_page.png" width="900">
 </p>
 
 ---
