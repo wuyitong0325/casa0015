@@ -27,8 +27,7 @@ The app scans for nearby BLE devices and allows users to connect to the IAQ sens
 
 📸 
 <p align="center">
-  <img src="![5bfcd5cb2cda95480f02fbc86ce8a9d8](https://github.com/user-attachments/assets/23383566-d2c9-4f3d-8f7c-32ca5c41ae49)
-" width="350">
+  <img src="" width="350">
 </p>
 
 
