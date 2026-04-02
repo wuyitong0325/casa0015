@@ -50,7 +50,10 @@ The dashboard provides **live visual feedback** of environmental conditions.
 
 This allows users to quickly assess indoor air quality without interpreting raw numbers.
 
-📸 *(Insert screenshot: Dashboard with gauges here)*
+📸 
+<p align="center">
+  <img src="dashboard_page.jpg" width="300">
+</p>
 
 ---
 
@@ -62,7 +65,10 @@ All readings are stored and can be reviewed in the history view.
 * Supports continuous monitoring over time
 * Enables users to identify trends and anomalies
 
-📸 *(Insert screenshot: History page here)*
+📸 
+<p align="center">
+  <img src="history_page.jpg" width="300">
+</p>
 
 ---
 
@@ -74,7 +80,10 @@ Users can configure air quality thresholds:
 * Stored locally on device
 * Immediately reflected in dashboard classification
 
-📸 *(Insert screenshot: Settings page here)*
+📸 
+<p align="center">
+  <img src="setting_page.jpg" width="300">
+</p>
 
 ---
 
