@@ -1,239 +1,212 @@
-# CASA0015 – Indoor Air Quality Monitoring App
+# CASA0015 – Indoor Air Quality Monitoring System
 
-## 📱 Project Overview
+## 📱 Overview
 
-This project is a **mobile application for indoor air quality (IAQ) monitoring**, developed using Flutter and Arduino.
+This project presents a **mobile-based indoor air quality (IAQ) monitoring system**, combining embedded sensing (Arduino), wireless communication (Bluetooth Low Energy), and cloud storage (Firebase).
 
-The system measures:
+The system continuously measures:
 
-* **eCO₂ (ppm)** – equivalent carbon dioxide level
-* **TVOC (ppb)** – total volatile organic compounds
+* **eCO₂ (ppm)** – indicator of ventilation quality
+* **TVOC (ppb)** – indicator of air pollutants
 
-These values are collected via a sensor connected to an Arduino device and transmitted via **Bluetooth Low Energy (BLE)** to the mobile app.
-
-The app visualises real-time air quality, stores historical data, and supports a **Demo Mode** for testing without hardware.
+These measurements are transmitted to a Flutter mobile application, where they are visualised in real time and stored for historical analysis.
 
 ---
 
-## 🧩 System Architecture
+## 🧠 Application Functionality
 
-The system consists of three main components:
+The mobile application is designed as a **complete end-to-end monitoring interface**, supporting device connection, real-time feedback, and long-term data analysis.
 
-1. **Arduino + Sensor (SGP30)**
+### 🔍 1. Device Discovery & Connection
 
-   * Reads environmental data (eCO₂ and TVOC)
-   * Sends data via BLE
+The app scans for nearby BLE devices and allows users to connect to the IAQ sensor.
 
-2. **Flutter Mobile App**
+* Displays available devices with signal strength (RSSI)
+* Supports reconnect and disconnect workflows
+* Ensures continuous data streaming once connected
 
-   * Connects to BLE device
-   * Displays real-time data
-   * Stores data locally and on Firebase
-
-3. **Firebase (Cloud Firestore)**
-
-   * Stores historical IAQ readings
-   * Enables persistent data access without hardware
+📸 *(Insert screenshot: BLE scanning & connection page here)*
 
 ---
 
-## 📁 Repository Structure
+### 📊 2. Real-Time Air Quality Dashboard
 
-### 🔧 Arduino Code
+The dashboard provides **live visual feedback** of environmental conditions.
 
-* Contains the firmware for the Arduino device
-* Responsible for:
-
-  * Reading data from the SGP30 sensor
-  * Formatting the data
-  * Broadcasting via BLE
-
----
-
-### 📱 Flutter App (`mobile_app_flutter/`)
-
-#### `lib/ble/`
-
-* **ble_iaq_client.dart**
-
-  * Handles BLE scanning, connection, and data streaming
-  * Parses incoming sensor data into usable format
-
----
-
-#### `lib/models/`
-
-* **iaq_sample.dart**
-
-  * Data model representing one IAQ reading (eCO₂, TVOC, timestamp)
-
-* **thresholds.dart**
-
-  * Defines air quality thresholds (good / ok / bad)
-
----
-
-#### `lib/pages/`
-
-* **scan_connect_page.dart**
-
-  * BLE device scanning and connection interface
-  * Entry point for hardware interaction
-  * Also includes Demo Mode controls
-
-* **dashboard_page.dart**
-
-  * Real-time visualisation of IAQ values
-  * Displays gauges for eCO₂ and TVOC
-
-* **history_page.dart**
-
-  * Shows historical data records
-  * Data sourced from stream (BLE or Firebase)
-
-* **settings_page.dart**
-
-  * Allows user to adjust threshold values
-
----
-
-#### `lib/services/`
-
-* **demo_data_service.dart**
-
-  * Generates simulated IAQ data
-  * Used in Demo Mode when no hardware is available
-
-* **firestore_service.dart**
-
-  * Handles saving IAQ readings to Firebase Firestore
-
----
-
-#### `lib/storage/`
-
-* **thresholds_store.dart**
-
-  * Saves and loads user-defined thresholds locally
-
----
-
-#### `lib/firebase_options.dart`
-
-* Auto-generated Firebase configuration file
-
----
-
-#### `lib/main.dart`
-
-* Application entry point
-* Initializes Firebase
-* Manages:
-
-  * Navigation
-  * Demo Mode switching
-  * Data source selection (BLE vs Demo)
-
----
-
-## ⚙️ Key Features
-
-### 🔵 BLE Data Acquisition
-
-* Scan and connect to nearby BLE devices
-* Receive real-time IAQ data from Arduino
-
----
-
-### 📊 Real-Time Dashboard
-
-* Visual gauges for:
+* Displays:
 
   * eCO₂ (ppm)
   * TVOC (ppb)
-* Colour-coded thresholds:
+* Uses gauge-style visualisation for intuitive understanding
+* Applies threshold-based classification:
 
-  * Good / OK / Bad
+  * **Good**
+  * **OK**
+  * **Bad**
+
+This allows users to quickly assess indoor air quality without interpreting raw numbers.
+
+📸 *(Insert screenshot: Dashboard with gauges here)*
 
 ---
 
-### 🕓 History Tracking
+### 🕓 3. Historical Data Tracking
 
-* Stores and displays historical readings
-* Enables users to monitor air quality trends over time
+All readings are stored and can be reviewed in the history view.
+
+* Displays time-stamped records
+* Supports continuous monitoring over time
+* Enables users to identify trends and anomalies
+
+📸 *(Insert screenshot: History page here)*
 
 ---
 
-## 🧪 Demo Mode (Important for Testing)
+### ⚙️ 4. Custom Threshold Settings
 
-Demo Mode allows the app to function **without Arduino or sensors**, which is essential for evaluation.
+Users can configure air quality thresholds:
 
-### How it works:
+* Adjustable limits for eCO₂ and TVOC
+* Stored locally on device
+* Immediately reflected in dashboard classification
 
-* The app switches from BLE input to a **simulated data stream**
-* Data is generated by `demo_data_service.dart`
-* The UI behaves exactly like real sensor input
+📸 *(Insert screenshot: Settings page here)*
 
-### Why it is important:
+---
 
-* Enables the app to be tested on any device
-* Ensures functionality can be demonstrated without hardware dependency
-* Required for coursework assessment
+## 🔄 Data Flow & System Behaviour
+
+The system follows this pipeline:
+
+```text
+Sensor (SGP30)
+   ↓
+Arduino
+   ↓ (BLE)
+Flutter App
+   ↓
+Firebase Firestore
+```
+
+* Sensor readings are generated on the embedded device
+* Data is transmitted via BLE
+* The app processes and visualises the data
+* Data is optionally stored in Firebase for persistence
 
 ---
 
 ## ☁️ Firebase Integration
 
-The app uses **Cloud Firestore** for cloud data storage.
+The application uses **Cloud Firestore** as a backend database.
 
-### What is stored:
+### Stored Data Structure
 
-Each IAQ reading includes:
+Each reading includes:
 
-* `eco2`
-* `tvoc`
-* `deviceTime`
-* `receivedAt`
-* `status`
+* `eco2` – CO₂ level
+* `tvoc` – VOC level
+* `deviceTime` – timestamp from device
+* `receivedAt` – server timestamp
+* `status` – computed classification
 
-### Purpose:
+### Purpose
 
-* Persist data beyond a single session
-* Allow history to be accessed independently of BLE connection
-* Enable cloud-based data inspection (via Firebase Console)
+* Persistent storage across sessions
+* Enables history access without requiring active BLE connection
+* Provides a cloud-based record for analysis and evaluation
 
-### Example:
-
-Data can be viewed in Firebase Console under:
-
-```
-Cloud Firestore → iaq_readings
-```
+📸 *(Insert screenshot: Firebase console data view here)*
 
 ---
 
-## 🚀 How to Run
+## 🧪 System Robustness & Hardware Independence
 
-### Run the Flutter App:
+To ensure the application remains **fully testable in all environments**, the system supports an alternative data source when physical hardware is unavailable.
+
+### Behaviour
+
+* The app dynamically selects its data stream:
+
+  * **Primary**: BLE sensor input
+  * **Fallback**: internally generated data stream
+
+* The fallback data mimics realistic sensor behaviour:
+
+  * Continuous updates
+  * Valid ranges for eCO₂ and TVOC
+  * Compatible with all UI components
+
+### Motivation
+
+This design ensures:
+
+* The application can be evaluated without requiring Arduino hardware
+* All features (dashboard, history, Firebase storage) remain functional
+* Consistent user experience across testing scenarios
+
+---
+
+## 📁 Project Structure
+
+### Arduino (Sensor Layer)
+
+* Reads SGP30 sensor values
+* Sends data via BLE
+
+---
+
+### Flutter Application (`mobile_app_flutter/`)
+
+#### `ble/`
+
+* BLE communication and data parsing
+
+#### `models/`
+
+* Data structures (IAQ readings, thresholds)
+
+#### `pages/`
+
+* UI screens:
+
+  * Connection
+  * Dashboard
+  * History
+  * Settings
+
+#### `services/`
+
+* Firebase integration
+* Data stream management
+
+#### `storage/`
+
+* Local persistence (threshold settings)
+
+#### `main.dart`
+
+* App entry point
+* Handles navigation and data source switching
+
+---
+
+## 🚀 Running the Application
 
 ```bash
 flutter pub get
 flutter run
 ```
 
-### Without Hardware:
-
-* Open the app
-* Enter **Demo Mode**
-* Navigate to Dashboard to view simulated data
+* Connect to BLE device for live data
+* If unavailable, the app still operates using internal data stream
 
 ---
 
 ## 📌 Notes
 
-* BLE functionality requires a compatible device and permissions
-* Firebase is configured in test mode for development
-* Demo Mode ensures the app remains fully functional during evaluation
+* BLE functionality requires device permissions
+* Firebase is configured in development mode
+* The system is designed for both real-world deployment and evaluation scenarios
 
 ---
 
