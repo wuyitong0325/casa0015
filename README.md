@@ -168,7 +168,7 @@ This design ensures:
 
 ## 📁 Project Structure
 
-### Arduino（mobile_app.ino)
+### Arduino（arduino_firmware.ino)
 * sensor layer
 * Reads SGP30 sensor values
 * Sends data via BLE
