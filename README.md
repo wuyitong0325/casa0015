@@ -232,7 +232,9 @@ flutter run
 
 ## 🎥 Demo Video
 
-[![Watch the demo](screenshots/dashboard_page.jpg)](mobilesystem.mp4)
+Click here to watch the demo:
+
+👉 [Watch Demo Video](mobilesystem.mp4)
 
 ---
 
