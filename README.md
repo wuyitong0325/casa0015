@@ -230,6 +230,11 @@ flutter run
 
 ---
 
+## Link to landing page
+https://wuyitong0325.github.io/casa0015/
+
+---
+
 ## 👨‍💻 Author
 
 Wu Yitong
