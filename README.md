@@ -230,6 +230,12 @@ flutter run
 
 ---
 
+## 🎥 Demo Video
+
+[![Watch the demo](screenshots/dashboard_page.jpg)](mobilesystem.mp4)
+
+---
+
 ## Link to landing page
 https://wuyitong0325.github.io/casa0015/
 
