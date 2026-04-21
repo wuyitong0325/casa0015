@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Indoor Air Quality Monitoring App</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel-2: #1f2937;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --accent: #8b5cf6;
+      --accent-2: #22c55e;
+      --line: rgba(255,255,255,0.08);
+      --shadow: 0 20px 40px rgba(0,0,0,0.25);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #0b1120 0%, #111827 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(15, 23, 42, 0.7);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .brand-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), #38bdf8);
+      box-shadow: var(--shadow);
+      font-size: 18px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .hero {
+      padding: 72px 0 56px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(139, 92, 246, 0.14);
+      color: #d8b4fe;
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(34px, 6vw, 58px);
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 18px;
+      margin: 0 0 24px;
+      max-width: 60ch;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      font-weight: 600;
+      transition: transform .18s ease, opacity .18s ease, background .18s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #6366f1);
+      border: none;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .phone-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .phone-frame {
+      margin: 0 auto;
+      width: min(360px, 100%);
+      aspect-ratio: 10 / 19;
+      background: #e5e7eb;
+      border-radius: 30px;
+      padding: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .phone-notch {
+      width: 120px;
+      height: 24px;
+      background: #0f172a;
+      border-radius: 0 0 16px 16px;
+      margin: 0 auto 8px;
+    }
+
+    .screen {
+      height: calc(100% - 32px);
+      border-radius: 22px;
+      background: linear-gradient(180deg, #f5f3ff 0%, #ede9fe 100%);
+      color: #111827;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .screen-card {
+      background: rgba(255,255,255,0.75);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    .gauge {
+      height: 120px;
+      border-radius: 20px;
+      background: radial-gradient(circle at 50% 100%, rgba(139, 92, 246, 0.18), transparent 55%), linear-gradient(180deg, #ffffff, #f3f4f6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gauge::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      width: 120px;
+      height: 8px;
+      border-radius: 999px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, #22c55e, #f59e0b, #ef4444);
+    }
+
+    .gauge::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 22px;
+      width: 72px;
+      height: 4px;
+      transform-origin: left center;
+      transform: rotate(-22deg);
+      background: #111827;
+      border-radius: 999px;
+    }
+
+    .section {
+      padding: 68px 0;
+    }
+
+    .section-head {
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+    }
+
+    .section h2 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4vw, 40px);
+      letter-spacing: -1px;
+    }
+
+    .section p.lead {
+      margin: 0;
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+    }
+
+    .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 14px;
+      background: rgba(139, 92, 246, 0.14);
+      color: #ddd6fe;
+      font-size: 20px;
+      border: 1px solid rgba(139, 92, 246, 0.22);
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      align-items: center;
+    }
+
+    .flow-step {
+      text-align: center;
+      padding: 18px 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+    }
+
+    .flow-step strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    .flow-step span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .arrow { text-align: center; color: var(--muted); font-size: 24px; }
+
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 14px 0 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: start;
+      gap: 10px;
+    }
+
+    .feature-list li::before {
+      content: "•";
+      color: var(--accent-2);
+      font-size: 20px;
+      line-height: 1;
+      margin-top: 1px;
+    }
+
+    .shots {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .shot {
+      background: rgba(255,255,255,0.04);
+      border: 1px dashed rgba(255,255,255,0.18);
+      border-radius: 24px;
+      padding: 16px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .shot-preview {
+      flex: 1;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      text-align: center;
+      padding: 18px;
+    }
+
+    .tag-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .tag {
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+    }
+
+    .footer {
+      padding: 24px 0 44px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .grid-3,
+      .grid-2,
+      .shots,
+      .flow {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links { display: none; }
+      .hero-stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="brand">
+        <div class="brand-badge">🌿</div>
+        <span>IAQ Monitoring App</span>
+      </a>
+      <div class="nav-links">
+        <a href="#problem">Problem</a>
+        <a href="#features">Features</a>
+        <a href="#system">System</a>
+        <a href="#screens">Screens</a>
+        <a href="#github">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">Connected Environments · Flutter + BLE + Firebase</div>
+        <h1>Make indoor air quality visible, understandable, and actionable.</h1>
+        <p>
+          A mobile system for real-time indoor air quality monitoring that combines SGP30 sensing,
+          Bluetooth Low Energy communication, intuitive mobile visualisation, and Firebase cloud storage.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#github">View GitHub</a>
+          <a class="btn btn-secondary" href="#screens">Explore App Pages</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <strong>Real-time</strong>
+            <span>Live eCO₂ and TVOC monitoring</span>
+          </div>
+          <div class="stat">
+            <strong>Cloud-backed</strong>
+            <span>Historical readings stored in Firebase</span>
+          </div>
+          <div class="stat">
+            <strong>Robust</strong>
+            <span>Fallback mode enables testing without hardware</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phone-card">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="screen">
+            <div class="screen-card">
+              <strong>Indoor Air Quality</strong>
+              <div style="color:#6b7280; font-size:13px; margin-top:4px;">Live dashboard with eCO₂ and TVOC feedback</div>
+            </div>
+            <div class="screen-card gauge"></div>
+            <div class="screen-card">
+              <div style="display:flex; justify-content:space-between; gap:12px;">
+                <div>
+                  <div style="font-size:12px; color:#6b7280;">eCO₂</div>
+                  <div style="font-size:26px; font-weight:700;">692 ppm</div>
+                </div>
+                <div>
+                  <div style="font-size:12px; color:#6b7280;">TVOC</div>
+                  <div style="font-size:26px; font-weight:700;">109 ppb</div>
+                </div>
+              </div>
+            </div>
+            <div class="screen-card">
+              <div style="font-size:12px; color:#6b7280;">Status</div>
+              <div style="font-size:18px; font-weight:700; color:#16a34a;">GOOD</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section" id="problem">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>The problem</h2>
+          <p class="lead">
+            Indoor air quality is invisible but directly affects health, comfort, concentration, and productivity.
+            Existing tools often show raw values without presenting meaningful, user-friendly feedback.
+          </p>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="icon">🎓</div>
+          <h3>Students & workers</h3>
+          <p>High CO₂ levels can reduce concentration, increase fatigue, and negatively affect decision-making.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🏠</div>
+          <h3>Indoor environments</h3>
+          <p>Poorly ventilated rooms make it difficult for users to detect unhealthy conditions without dedicated monitoring.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🫁</div>
+          <h3>Sensitive users</h3>
+          <p>Children, elderly people, and users with respiratory conditions are more vulnerable to poor air quality.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>What the app does</h2>
+          <p class="lead">
+            The application is designed as a complete end-to-end monitoring interface for device connection,
+            real-time feedback, historical review, and threshold customisation.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="icon">📡</div>
+          <h3>BLE Device Connection</h3>
+          <ul class="feature-list">
+            <li>Scans nearby Bluetooth Low Energy devices</li>
+            <li>Displays device list with signal strength</li>
+            <li>Supports connection, disconnection, and re-scan</li>
+            <li>Acts as the entry point for live sensor data acquisition</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="icon">📊</div>
+          <h3>Real-Time Dashboard</h3>
+          <ul class="feature-list">
+            <li>Displays live eCO₂ and TVOC readings</li>
+            <li>Uses gauge-style visualisation for intuitive understanding</li>
+            <li>Classifies status into Good, OK, and Bad</li>
+            <li>Provides immediate environmental feedback to the user</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="icon">🕓</div>
+          <h3>History & Trend Awareness</h3>
+          <ul class="feature-list">
+            <li>Retrieves timestamped historical records</li>
+            <li>Supports longer-term monitoring over time</li>
+            <li>Allows users to observe patterns and anomalies</li>
+            <li>Uses Firebase as persistent cloud storage</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="icon">⚙️</div>
+          <h3>Custom Threshold Settings</h3>
+          <ul class="feature-list">
+            <li>Lets users adjust eCO₂ and TVOC thresholds</li>
+            <li>Defines personalised boundaries for air quality evaluation</li>
+            <li>Saves preferences locally on the device</li>
+            <li>Supports more flexible interpretation of measurements</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="system">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>How it works</h2>
+          <p class="lead">
+            The system combines embedded sensing, wireless communication, mobile interaction, and cloud persistence.
+          </p>
+        </div>
+      </div>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div style="font-size:34px;">🧪</div>
+          <strong>Sensor</strong>
+          <span>SGP30 measures eCO₂ and TVOC</span>
+        </div>
+        <div class="flow-step">
+          <div style="font-size:34px;">🟦</div>
+          <strong>BLE</strong>
+          <span>Arduino transmits readings wirelessly</span>
+        </div>
+        <div class="flow-step">
+          <div style="font-size:34px;">📱</div>
+          <strong>Flutter App</strong>
+          <span>Processes, visualises, and manages data</span>
+        </div>
+        <div class="flow-step">
+          <div style="font-size:34px;">☁️</div>
+          <strong>Firebase</strong>
+          <span>Stores historical readings in Firestore</span>
+        </div>
+      </div>
+
+      <div class="tag-row">
+        <div class="tag">SGP30 sensing layer</div>
+        <div class="tag">BLE communication layer</div>
+        <div class="tag">Flutter application layer</div>
+        <div class="tag">Cloud Firestore persistence</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="screens">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>App pages</h2>
+          <p class="lead">
+           
+          </p>
+        </div>
+      </div>
+
+      <div class="shots">
+        <div class="shot">
+          <div>
+            <h3>Connect</h3>
+            <p>Scan BLE devices, choose a sensor, and establish the data source for live monitoring.</p>
+          </div>
+          <div class="shot-preview">
+  <img src="screenshots/connect_page.jpg" style="width:100%; border-radius:12px;">
+</div>
+        </div>
+
+        <div class="shot">
+          <div>
+            <h3>Dashboard</h3>
+            <p>Show live eCO₂ and TVOC values with gauges and threshold-based visual feedback.</p>
+          </div>
+          <div class="shot-preview">
+  <img src="screenshots/dashboard_page.jpg" style="width:100%; border-radius:12px;">
+</div>
+        </div>
+
+        <div class="shot">
+          <div>
+            <h3>History</h3>
+            <p>Display timestamped historical records from Firebase for trend tracking and persistence.</p>
+          </div>
+          <div class="shot-preview">
+  <img src="screenshots/history_page.jpg" style="width:100%; border-radius:12px;">
+</div>
+        </div>
+
+        <div class="shot">
+          <div>
+            <h3>Settings</h3>
+            <p>Adjust thresholds and personalise how the app interprets indoor air quality.</p>
+          </div>
+          <div class="shot-preview">
+  <img src="screenshots/settings_page.jpg" style="width:100%; border-radius:12px;">
+</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="robustness">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Robust by design</h2>
+          <p class="lead">
+            The system supports hardware-independent evaluation through a fallback testing workflow.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="icon">🧠</div>
+          <h3>Fallback data mechanism</h3>
+          <p>
+            When a BLE device is unavailable, the app can switch to an internally generated data stream.
+            This keeps the dashboard, history, and Firebase workflow fully functional during testing or assessment.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">⏱️</div>
+          <h3>Implementation logic</h3>
+          <p>
+            A dedicated service generates readings at fixed intervals using bounded value ranges and small step-by-step changes,
+            producing smooth, realistic eCO₂ and TVOC trends instead of random noise.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="github">
+    <div class="container">
+      <div class="card">
+        <h2 style="margin-top:0;">Explore the project</h2>
+        <p class="lead" style="margin-bottom:18px;">
+          The repository includes the Flutter mobile app, Arduino firmware for the SGP30 sensor node, screenshots, and project documentation.
+        </p>
+        <div class="cta-row" style="margin-bottom:0;">
+          <a class="btn btn-primary" href="https://github.com/wuyitong0325/casa0015" target="_blank" rel="noopener noreferrer">Open GitHub Repository</a>
+          <a class="btn btn-secondary" href="#top">Back to top</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div>CASA0015 · Smart Indoor Air Quality Monitoring App · Wu Yitong</div>
+    </div>
+  </footer>
+</body>
+</html>

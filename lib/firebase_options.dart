@@ -85,4 +85,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'mobile-app-casa0015.firebasestorage.app',
     measurementId: 'G-0X5DR85GB7',
   );
+
 }
