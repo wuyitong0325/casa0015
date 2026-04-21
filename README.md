@@ -13,6 +13,42 @@ These measurements are transmitted to a Flutter mobile application, where they a
 
 ---
 
+## 🎯 User Scenario & Motivation
+
+Imagine a student studying in a quiet indoor room for several hours.
+
+At first, everything feels normal. But over time, they begin to feel tired, lose concentration, and struggle to stay focused — even though the environment appears comfortable.
+
+In reality, the air quality may be deteriorating:
+- CO₂ levels gradually increase due to poor ventilation  
+- Invisible pollutants accumulate in the environment  
+
+Without proper monitoring, users have **no intuitive way to detect these changes**.
+
+---
+
+This system is designed to address this gap.
+
+Instead of presenting raw sensor data, the application transforms invisible environmental conditions into:
+
+- **Real-time visual feedback** (dashboard)  
+- **Clear status indicators** (Good / OK / Bad)  
+- **Historical insights** (trend tracking)  
+
+---
+
+As a result, users can:
+
+- Understand their environment instantly  
+- Take action (e.g., open a window, improve ventilation)  
+- Reflect on how air quality affects their daily activities  
+
+---
+
+👉 The goal is not just to measure air quality, but to make it **understandable and actionable in everyday life**.
+
+---
+
 ## 🧠 Application Functionality
 
 The mobile application is designed as a **complete end-to-end monitoring interface**, supporting device connection, real-time feedback, and long-term data analysis.
